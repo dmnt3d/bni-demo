@@ -1,0 +1,70 @@
+DEMO
+
+Traditional:
+1. Create Virtual Environment
+mkdir local
+python -m venv ./ venv
+source activate
+
+2. Pip install the requirements
+pip install -r requirements.txt
+
+#===============
+Docker Build
+From app1:
+1.  BUILD APPs
+docker build .
+or 
+docker build . -t demo:v1 —no-cache=true
+
+2.
+Docker run: 
+    docker run -p 5000:5000 demo:v1
+    Docker create
+    Or docker create -p 5000:5000 —-name testv1 demo:v1
+    — modify to v2
+    Deploy to there ports
+    
+    NOTE:*** modify image contents per version
+
+
+3.
+SAVE to target for transporting
+    docker save -o ~/Documents/demo/bni/demo-v1.tar demo:v1
+    docker load -i bni-demo-v1.tar 
+
+#===============
+PUSH to Harbor
+
+Tag FIRST
+    docker tag bni-demo:v1 harbor.letsdocloud.com/bni-demo/bni-demo:v1
+
+PUSH
+    docker push harbor.letsdocloud.com/bni-demo/bni-demo:v1
+
+PULL from Harbor
+    docker pull harbor.letsdocloud.com/bni-demo/bni-demo:vX
+    docker create -p 5000:5000 --name testvX harbor.letsdocloud.com/bni-demo/bni-demo:vX
+#====
+
+Kubernetes
+- show deployment manifests
+- deploy
+
+    Accessing the pod
+        kubectl port-forward pod/demo-84d888fdcc-sd2gz 8000:5000 -n bni-v1
+    Accessing the service
+        kubectl port-forward service/demo 7000:5000 -n bni-v1
+
+Showcase:
+    - deleting of pod
+    - increase of pod
+    - changing of version
+    
+=====
+CONTOUR
+- explain httpproxy
+- explain root delegation
+- access the FQDN
+    - increase pod
+    
